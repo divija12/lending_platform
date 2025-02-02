@@ -1,0 +1,233 @@
+{% extends 'base.html' %}
+
+{% block title %}Individual Borrower Prediction{% endblock %}
+
+{% block page_title %}Predict Default for Individual Borrower{% endblock %}
+
+{% block content %}
+<form id="individual-form" class="styled-form">
+    {% csrf_token %}
+    
+    <!-- Applicant Demographics -->
+    <h3>Applicant Demographics</h3>
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" value="" required><br><br>
+
+    <label for="member_id">member_id:</label>
+    <input type="text" id="member_id" name="member_id" value="" required><br><br>
+
+    <label for="emp_title">Employment Title:</label>
+    <input type="text" id="emp_title" name="emp_title" value="Employed"><br><br>
+
+    <label for="emp_length">Employment Length (years):</label>
+    <input type="number" id="emp_length" name="emp_length" value="5"><br><br>
+
+    <label for="home_ownership">Home Ownership:</label>
+    <input type="text" id="home_ownership" name="home_ownership" value="OWN"><br><br>
+
+    <label for="annual_inc">Annual Income:</label>
+    <input type="number" step="0.01" id="annual_inc" name="annual_inc" value="50000" required><br><br>
+
+    <label for="verification_status">Verification Status:</label>
+    <input type="text" id="verification_status" name="verification_status" value="Verified"><br><br>
+
+    <label for="zip_code">ZIP Code:</label>
+    <input type="text" id="zip_code" name="zip_code" value="10001"><br><br>
+
+    <label for="addr_state">Address State:</label>
+    <input type="text" id="addr_state" name="addr_state" value="NY"><br><br>
+
+    <!-- Financial History -->
+    <h3>Financial History</h3>
+    <label for="dti">Debt-to-Income Ratio:</label>
+    <input type="number" step="0.01" id="dti" name="dti" value="0.35" required><br><br>
+
+    <label for="delinq_2yrs">Delinquencies in Last 2 Years:</label>
+    <input type="number" id="delinq_2yrs" name="delinq_2yrs" value="0"><br><br>
+
+    <label for="inq_last_6mths">Inquiries in Last 6 Months:</label>
+    <input type="number" id="inq_last_6mths" name="inq_last_6mths" value="1"><br><br>
+
+    <label for="open_acc">Open Credit Accounts:</label>
+    <input type="number" id="open_acc" name="open_acc" value="3"><br><br>
+
+    <label for="pub_rec">Public Records:</label>
+    <input type="number" id="pub_rec" name="pub_rec" value="0"><br><br>
+
+    <label for="revol_bal">Revolving Balance:</label>
+    <input type="number" id="revol_bal" name="revol_bal" value="1500"><br><br>
+
+    <label for="total_acc">Total Credit Accounts:</label>
+    <input type="number" id="total_acc" name="total_acc" value="5"><br><br>
+
+    <label for="collections_12_mths_ex_med">Collections in Last 12 Months (ex-med):</label>
+    <input type="number" id="collections_12_mths_ex_med" name="collections_12_mths_ex_med" value="0"><br><br>
+
+    <!-- Loan Characteristics -->
+    <h3>Loan Characteristics</h3>
+    <label for="loan_amnt">Loan Amount:</label>
+    <input type="number" id="loan_amnt" name="loan_amnt" value="15000" required><br><br>
+
+    <label for="term">Loan Term:</label>
+    <input type="text" id="term" name="term" value="36 months"><br><br>
+
+    <label for="int_rate">Interest Rate (%):</label>
+    <input type="number" step="0.01" id="int_rate" name="int_rate" value="12.5"><br><br>
+
+    <label for="installment">Installment Amount:</label>
+    <input type="number" step="0.01" id="installment" name="installment" value="450.00"><br><br>
+
+    <label for="grade">Loan Grade:</label>
+    <input type="text" id="grade" name="grade" value="B"><br><br>
+
+    <label for="sub_grade">Sub-Grade:</label>
+    <input type="text" id="sub_grade" name="sub_grade" value="B3"><br><br>
+
+    <label for="purpose">Loan Purpose:</label>
+    <input type="text" id="purpose" name="purpose" value="Debt Consolidation"><br><br>
+
+    <!-- Additional fields required for model -->
+    <h3>Additional Required Data</h3>
+    <label for="months_since_credit_pull">Months Since Credit Pull:</label>
+    <input type="number" id="months_since_credit_pull" name="months_since_credit_pull" value="6"><br><br>
+
+    <label for="policy_code">Policy Code:</label>
+    <input type="number" id="policy_code" name="policy_code" value="1"><br><br>
+
+    <label for="months_since_last_pymnt">Months Since Last Payment:</label>
+    <input type="number" id="months_since_last_pymnt" name="months_since_last_pymnt" value="3"><br><br>
+
+    <label for="initial_list_status">Initial List Status:</label>
+    <input type="text" id="initial_list_status" name="initial_list_status" value="w"><br><br>
+
+    <label for="recoveries">Recoveries:</label>
+    <input type="number" step="0.01" id="recoveries" name="recoveries" value="0.00"><br><br>
+
+    <label for="collection_recovery_fee">Collection Recovery Fee:</label>
+    <input type="number" step="0.01" id="collection_recovery_fee" name="collection_recovery_fee" value="0.00"><br><br>
+
+    <label for="verification_status_encoded">Verification Status Encoded:</label>
+    <input type="number" id="verification_status_encoded" name="verification_status_encoded" value="1"><br><br>
+
+    <label for="out_prncp">Outstanding Principal:</label>
+    <input type="number" step="0.01" id="out_prncp" name="out_prncp" value="10000.00"><br><br>
+
+    <label for="out_prncp_inv">Outstanding Principal (Investment):</label>
+    <input type="number" step="0.01" id="out_prncp_inv" name="out_prncp_inv" value="0.00"><br><br>
+
+    <label for="grade_ordinal">Grade Ordinal:</label>
+    <input type="number" id="grade_ordinal" name="grade_ordinal" value="2"><br><br>
+
+    <label for="last_pymnt_amnt">Last Payment Amount:</label>
+    <input type="number" step="0.01" id="last_pymnt_amnt" name="last_pymnt_amnt" value="400.00"><br><br>
+
+    <label for="total_rec_prncp">Total Recovery Principal:</label>
+    <input type="number" step="0.01" id="total_rec_prncp" name="total_rec_prncp" value="12000.00"><br><br>
+
+    <label for="total_pymnt">Total Payment:</label>
+    <input type="number" step="0.01" id="total_pymnt" name="total_pymnt" value="15000.00"><br><br>
+
+    <label for="total_pymnt_inv">Total Payment (Investment):</label>
+    <input type="number" step="0.01" id="total_pymnt_inv" name="total_pymnt_inv" value="12000.00"><br><br>
+
+    <label for="goal" class="select-label">Goal:</label>     
+    <select name="goal" id="goal" required class="goal-select">
+        <option value="profit_maximization">Profit Maximization</option>
+        <option value="risk_minimization">Risk Minimization</option>
+        <option value="market_expansion">Market Expansion</option>
+    </select><br>
+
+    <!-- Predict Button -->
+    <button type="submit" class="styled-button">Predict Default Probability</button>
+
+</form>
+
+<div id="prediction-result"></div>
+
+<script>
+    
+
+    document.getElementById('individual-form').addEventListener('submit', function(event) {
+    event.preventDefault();  // Prevent the form from submitting the default way
+
+    // Create an empty object to hold form data
+    let formData = {};
+
+   // Define default values for the fields (can be adjusted as needed)
+    const defaultValues = {
+        emp_title: "Unknown",  // Default value for employment title
+        emp_length: 0,  // Default value for employment length
+        home_ownership: "Unknown",  // Default value for home ownership
+        annual_inc: 50000,  // Default value for annual income
+        verification_status: "Not Verified",  // Default value for verification status
+        zip_code: "00000",  // Default value for zip code
+        addr_state: "Unknown",  // Default value for address state
+        dti: 0.0,  // Default value for debt-to-income ratio
+        delinq_2yrs: 0,  // Default value for delinquencies
+        inq_last_6mths: 0,  // Default value for inquiries in last 6 months
+        open_acc: 0,  // Default value for open accounts
+        pub_rec: 0,  // Default value for public records
+        revol_bal: 0,  // Default value for revolving balance
+        total_acc: 0,  // Default value for total accounts
+        collections_12_mths_ex_med: 0,  // Default value for collections
+        loan_amnt: 10000,  // Default loan amount
+        term: "36 months",  // Default loan term
+        int_rate: 5.0,  // Default interest rate
+        installment: 300,  // Default installment amount
+        grade: "B",  // Default loan grade
+        sub_grade: "B1",  // Default loan sub-grade
+        purpose: "Credit Card Consolidation", 
+        goal: "risk_minimization" // Default loan purpose
+    };
+
+    // Loop through the form elements to get their values
+    let formElements = event.target.elements;
+    for (let element of formElements) {
+        if (element.name) {
+            // If the field is empty, use the default value
+            formData[element.name] = element.value || defaultValues[element.name] || null;
+        }
+    }
+
+    console.log(formData);  // Log the data (for debugging purposes)
+
+    // Optionally, you can send this data to a server via an AJAX request (example below)
+    sendFormDataAsJSON(formData);
+});
+
+// Example function to send the form data as JSON to the server
+function sendFormDataAsJSON(formData) {
+    fetch("{% url 'predict_individual' %}", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCookie('csrftoken')  // Add CSRF token if necessary
+        },
+        body: JSON.stringify(formData)
+    })
+    .then(response => response.json())
+        .then(data => {
+            document.getElementById('prediction-result').innerHTML =
+                `Default Probability (%): ${data.default_probability} <br>Recommendation: ${data.recommendation}`;
+        })
+        .catch(error => console.error('Error:', error));
+}
+
+// Helper function to get the CSRF token from cookies (if you're using Django CSRF protection)
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+</script>
+{% endblock %}

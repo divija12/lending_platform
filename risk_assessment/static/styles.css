@@ -1,0 +1,245 @@
+/* styles.css */
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    background-color: #f4f6f9;
+}
+
+.container {
+    display: flex;
+}
+
+.sidebar {
+    width: 250px;
+    background-color: #2c3e50;
+    color: #ecf0f1;
+    padding: 20px;
+    height: 100vh;
+}
+
+.sidebar h2 {
+    text-align: center;
+    font-size: 1.5em;
+    color: #ecf0f1;
+}
+
+.sidebar ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.sidebar ul li {
+    margin: 15px 0;
+}
+
+.sidebar ul li a {
+    color: #ecf0f1;
+    text-decoration: none;
+    font-size: 1.1em;
+    padding: 10px;
+    display: block;
+    border-radius: 5px;
+    transition: background 0.3s;
+}
+
+.sidebar ul li a:hover {
+    background-color: #34495e;
+}
+
+.main-content {
+    flex: 1;
+    padding: 20px;
+    background-color: #fff;
+    margin-left: 10px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.main-content header h1 {
+    font-size: 2em;
+    color: #2c3e50;
+    border-bottom: 2px solid #ecf0f1;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+/* Typography */
+h1, h2 {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 600;
+}
+
+p {
+    color: #7f8c8d;
+    line-height: 1.6;
+}
+
+/* Link Styling */
+a {
+    color: #3498db;
+}
+
+/* Responsive Layout */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        height: auto;
+    }
+
+    .main-content {
+        margin-left: 0;
+        margin-top: 10px;
+    }
+}
+
+/* styles.css */
+
+.styled-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 1em;
+    font-family: Arial, sans-serif;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.styled-table thead tr {
+    background-color: #3498db;
+    color: #ffffff;
+    text-align: left;
+}
+
+.styled-table th,
+.styled-table td {
+    border: 1px solid #dddddd;
+    padding: 12px 15px;
+}
+
+.styled-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+.styled-table tbody tr:last-of-type {
+    border-bottom: 2px solid #3498db;
+}
+
+.styled-table tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* styles.css */
+
+/* styles.css */
+
+/* Form Styling */
+.styled-form {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.styled-form label {
+    display: block;
+    font-size: 1.1em;
+    color: #2c3e50;
+    margin-bottom: 5px;
+}
+
+.styled-form input[type="text"],
+.styled-form input[type="email"],
+.styled-form input[type="number"],
+.styled-form input[type="date"],
+.styled-form textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    font-size: 1em;
+    background-color: #f9f9f9;
+}
+
+.styled-form input:focus,
+.styled-form textarea:focus {
+    border-color: #3498db;
+    outline: none;
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
+}
+
+/* Button Styling */
+.styled-button {
+    width: 100%;
+    padding: 12px;
+    background-color: #3498db;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.styled-button:hover {
+    background-color: #2980b9;
+}
+
+.styled-button:active {
+    background-color: #1c598a;
+}
+
+
+/* Styling the label */
+.select-label {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 8px;
+    display: inline-block;
+    color: #333;
+}
+
+/* Styling the select dropdown */
+.goal-select {
+    font-size: 16px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+    width: 200px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+
+/* Hover effect for the select box */
+.goal-select:hover {
+    border-color: #007bff;
+    background-color: #f1faff;
+}
+
+/* Focus effect (when the dropdown is selected) */
+.goal-select:focus {
+    border-color: #0056b3;
+    background-color: #ffffff;
+    outline: none;
+}
+
+/* Optional: Style for the options in the dropdown */
+.goal-select option {
+    padding: 10px;
+    background-color: #ffffff;
+    color: #333;
+}

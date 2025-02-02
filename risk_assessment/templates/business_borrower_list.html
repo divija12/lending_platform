@@ -1,0 +1,23 @@
+<!-- templates/business_borrower_list.html -->
+{% extends 'base.html' %}
+
+{% block title %}Business Borrowers{% endblock %}
+
+{% block page_title %}Business Borrowers List{% endblock %}
+
+{% block content %}
+<h2>Business Borrowers</h2>
+<table class="styled-table">
+
+    <tbody>
+        {% for borrower in borrowers %}
+        <tr>
+            <td>{{ borrower.business_name }}</td>
+            <td>{{ borrower.annual_revenue }}</td>
+            <td>{{ borrower.business_credit_score }}</td>
+            <td>{{ borrower.debt_coverage_ratio }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+
+{% block title %}Individual Borrowers{% endblock %}
+
+{% block page_title %}Individual Borrowers List{% endblock %}
+
+{% block content %}
+<h2>Individual Borrowers</h2>
+<table class="styled-table">
+    <thead>
+    <tr>
+        <th>Member ID</th>
+        <th>Employment Length</th>
+        <th>Home Ownership</th>
+        <th>Income</th>
+        <th>Verification Status</th>
+        <th>Address State</th>
+        <th>Application Type</th>
+        <th>Debt-to-Income Ratio</th>
+        <th>Delinquency (2 yrs)</th>
+        <th>Inquiry Last 6 Months</th>
+        <th>Open Accounts</th>
+        <th>Public Records</th>
+        <th>Revolving Balance</th>
+        <th>Total Accounts</th>
+        <th>Collections (12 Mths)</th>
+        <th>Loan Amount</th>
+        <th>Term</th>
+        <th>Interest Rate</th>
+        <th>Installment</th>
+        <th>Grade</th>
+        <th>Sub Grade</th>
+        <th>Purpose</th>
+        <th>Default Probability</th>
+        <th>Default Indicator</th>
+        <th>Last Updated</th>
+    </tr>
+</thead>
+    {% for borrower in borrowers %}
+    <tr>
+        <td>{{ borrower.member_id }}</td>
+        <td>{{ borrower.emp_length }}</td>
+        <td>{{ borrower.home_ownership }}</td>
+        <td>{{ borrower.income }}</td>
+        <td>{{ borrower.verification_status }}</td>
+        <td>{{ borrower.addr_state }}</td>
+        <td>{{ borrower.application_type }}</td>
+        <td>{{ borrower.dti }}</td>
+        <td>{{ borrower.delinq_2yrs }}</td>
+        <td>{{ borrower.inq_last_6mths }}</td>
+        <td>{{ borrower.open_acc }}</td>
+        <td>{{ borrower.pub_rec }}</td>
+        <td>{{ borrower.revol_bal }}</td>
+        <td>{{ borrower.total_acc }}</td>
+        <td>{{ borrower.collections_12_mths_ex_med }}</td>
+        <td>{{ borrower.loan_amnt }}</td>
+        <td>{{ borrower.term }}</td>
+        <td>{{ borrower.int_rate }}</td>
+        <td>{{ borrower.installment }}</td>
+        <td>{{ borrower.grade }}</td>
+        <td>{{ borrower.sub_grade }}</td>
+        <td>{{ borrower.purpose }}</td>
+        <td>{{ borrower.default_probability }}</td>
+        <td>{{ borrower.default_ind }}</td>
+        <td>{{ borrower.last_updated }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<div class="pagination">
+    <span class="step-links">
+        {% if borrowers.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ borrowers.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ borrowers.number }} of {{ borrowers.paginator.num_pages }}.
+        </span>
+
+        {% if borrowers.has_next %}
+            <a href="?page={{ borrowers.next_page_number }}">next</a>
+            <a href="?page={{ borrowers.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+{% endblock %}
+
+

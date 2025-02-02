@@ -1,0 +1,182 @@
+<!-- templates/business_form.html -->
+{% extends 'base.html' %}
+
+{% block title %}Business Borrower Prediction{% endblock %}
+
+{% block page_title %}Predict Default for Business Borrower{% endblock %}
+
+{% block content %}
+<form id="business-form" class="styled-form">
+    {% csrf_token %}
+
+    <!-- Business Information -->
+    <h3>Business Information</h3>
+    <label for="name">Business Name:</label>
+    <input type="text" id="name" name="name" required><br><br>
+
+    <label for="city">City:</label>
+    <input type="text" id="city" name="city" required><br><br>
+
+    <label for="state">State:</label>
+    <input type="text" id="state" name="state" value="CA"><br><br>
+
+    <label for="zip">ZIP Code:</label>
+    <input type="text" id="zip" name="zip" value="00000"><br><br>
+
+    <label for="naics">NAICS Code:</label>
+    <input type="text" id="naics" name="naics" value="22"><br><br>
+
+    <label for="term">Loan Term (Months):</label>
+    <input type="number" id="term" name="term" value="36" required><br><br>
+
+    <label for="no_emp">Number of Employees:</label>
+    <input type="number" id="no_emp" name="no_emp" value="10"><br><br>
+
+    <label for="new_exist">New/Existing Business (1=Existing, 2=New):</label>
+    <input type="number" id="new_exist" name="new_exist" value="1"><br><br>
+
+    <!-- Loan Characteristics -->
+    <h3>Loan Characteristics</h3>
+    <label for="loan_amt">Loan Amount:</label>
+    <input type="number" step="0.01" id="loan_amt" name="loan_amt" value="100000.00" required><br><br>
+
+    <label for="approval_date">Approval Date:</label>
+    <input type="date" id="approval_date" name="approval_date"><br><br>
+
+    <label for="disbursement_date">Disbursement Date:</label>
+    <input type="date" id="disbursement_date" name="disbursement_date"><br><br>
+
+    <label for="disbursement_gross">Disbursement Gross Amount:</label>
+    <input type="number" step="0.01" id="disbursement_gross" name="disbursement_gross" value="100000.00" required><br><br>
+
+    <label for="balance_gross">Outstanding Balance:</label>
+    <input type="number" step="0.01" id="balance_gross" name="balance_gross" value="50000.00"><br><br>
+
+    <label for="chg_off_date">Charge-Off Date:</label>
+    <input type="date" id="chg_off_date" name="chg_off_date"><br><br>
+
+    <label for="mis_status">Loan Status (e.g., PIF, CHGOFF):</label>
+    <input type="text" id="mis_status" name="mis_status" value="PIF"><br><br>
+
+    <!-- Additional Business Information -->
+    <h3>Additional Business Information</h3>
+    <label for="create_job">Jobs Created:</label>
+    <input type="number" id="create_job" name="create_job" value="5"><br><br>
+
+    <label for="retained_job">Jobs Retained:</label>
+    <input type="number" id="retained_job" name="retained_job" value="3"><br><br>
+
+    <label for="franchise_code">Franchise Code (00000 or 00001):</label>
+    <input type="text" id="franchise_code" name="franchise_code" value="00000"><br><br>
+
+    <label for="urban_rural">Urban/Rural Indicator (1=Urban, 2=Rural):</label>
+    <input type="number" id="urban_rural" name="urban_rural" value="1"><br><br>
+
+    <label for="rev_line_cr">Revolving Line of Credit (Y/N):</label>
+    <input type="text" id="rev_line_cr" name="rev_line_cr" value="N"><br><br>
+
+    <label for="low_doc">LowDoc Program (Y/N):</label>
+    <input type="text" id="low_doc" name="low_doc" value="N"><br><br>
+
+    <label for="chg_off_prin_gr">Charged-Off Amount:</label>
+    <input type="number" step="0.01" id="chg_off_prin_gr" name="chg_off_prin_gr" value="0.00"><br><br>
+
+    <label for="gr_appv">Gross Approved Amount:</label>
+    <input type="number" step="0.01" id="gr_appv" name="gr_appv" value="150000.00"><br><br>
+
+    <label for="sba_appv">SBA Approved Amount:</label>
+    <input type="number" step="0.01" id="sba_appv" name="sba_appv" value="120000.00"><br><br>
+
+    <!-- Prediction Goal -->
+    <label for="goal" class="select-label">Goal:</label>     
+    <select name="goal" id="goal" required class="goal-select">
+        <option value="profit_maximization">Profit Maximization</option>
+        <option value="risk_minimization">Risk Minimization</option>
+        <option value="market_expansion">Market Expansion</option>
+    </select><br>
+
+    <!-- Predict Button -->
+    <button type="submit" class="styled-button">Predict Default Probability</button>
+</form>
+
+<div id="prediction-result"></div>
+
+<script>
+    document.getElementById('business-form').addEventListener('submit', function(event) {
+        event.preventDefault();  // Prevent the form from submitting the default way
+
+        // Create an empty object to hold form data
+        let formData = {};
+
+        // Define default values for the fields
+        const defaultValues = {
+            city: "Unknown",
+            state: "Unknown",
+            zip: "00000",
+            term: 36,
+            no_emp: 1,
+            new_exist: 1,
+            create_job: 0,
+            retained_job: 0,
+            franchise_code: "00000",
+            urban_rural: 1,
+            rev_line_cr: "N",
+            low_doc: "N",
+            disbursement_gross: 0.00,
+            balance_gross: 0.00,
+            chg_off_prin_gr: 0.00,
+            gr_appv: 0.00,
+            sba_appv: 0.00,
+            goal: "risk_minimization"
+        };
+
+        // Loop through the form elements to get their values
+        let formElements = event.target.elements;
+        for (let element of formElements) {
+            if (element.name) {
+                // If the field is empty, use the default value
+                formData[element.name] = element.value || defaultValues[element.name] || null;
+            }
+        }
+
+        console.log(formData);  // Log the data (for debugging purposes)
+
+        // Optionally, you can send this data to a server via an AJAX request (example below)
+        sendFormDataAsJSON(formData);
+    });
+
+    // Function to send the form data as JSON to the server
+    function sendFormDataAsJSON(formData) {
+        fetch("{% url 'predict_business' %}", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken')  // Add CSRF token if necessary
+            },
+            body: JSON.stringify(formData)
+        })
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('prediction-result').innerHTML =
+                `Default Probability (%): ${data.default_probability} <br>Recommendation: ${data.recommendation}`;
+        })
+        .catch(error => console.error('Error:', error));
+    }
+
+    // Helper function to get the CSRF token from cookies
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+</script>
+{% endblock %}

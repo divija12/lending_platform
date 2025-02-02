@@ -1,0 +1,37 @@
+<!-- templates/base.html -->
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Lending Platform{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+<body>
+    <div class="container">
+        <!-- Side Navigation Bar -->
+        <nav class="sidebar">
+            <h2>Dashboard</h2>
+            <ul>
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'individual_borrower_list' %}">Individual Borrowers</a></li>
+                <li><a href="{% url 'business_borrower_list' %}">Business Borrowers</a></li>
+                <li><a href="{% url 'individual_form' %}">Predict Individual Borrower</a></li>
+                <li><a href="{% url 'business_form' %}">Predict Business Borrower</a></li>
+            </ul>
+        </nav>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <header>
+                <h1>{% block page_title %}Welcome to the Lending Platform{% endblock %}</h1>
+            </header>
+            <section>
+                {% block content %}<!-- Content from child templates will go here -->{% endblock %}
+            </section>
+        </main>
+    </div>
+</body>
+</html>
